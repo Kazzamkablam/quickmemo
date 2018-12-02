@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "LeffatCordova", "LeffatCordova\LeffatCordova.jsproj", "{8DD00C4A-2072-4F13-AB43-29367217428C}"
+Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "QuickNote", "LeffatCordova\QuickNote.jsproj", "{8DD00C4A-2072-4F13-AB43-29367217428C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

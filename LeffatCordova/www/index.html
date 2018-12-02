@@ -1,29 +1,157 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
+
+    <!-- 170028 Juha Penttinen app demonstration: quicknote, note tool-->
 <html>
-    <head>
+<head>
+    <link rel="stylesheet" type="text/css" href="mobileui/fonts.css">
+    <link rel="stylesheet" type="text/css" href="mobileui/style.css">
     <!--
         Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
         For details, see http://go.microsoft.com/fwlink/?LinkID=617521
-    -->
+
         <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
-        
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>LeffatCordova</title>
-    </head>
-    <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
+        -->
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="mobileui/mobileui.js"></script>
+    <script type="text/javascript" src="scripts/ui.js"></script>
+    <script type="text/javascript" src="scripts/databaseHandler.js"></script>
+
+    <title>QuickNote</title>
+</head>
+
+    <!-- Used mobileUI for graphical elements, no coding required-->
+<body class="blue-100 has-sub-header has-header">
+    <div class="main hidden" id="main">
+        <div class="header blue">
+
+            <h1>QuickNote</h1>
+        </div>
+        <div class="header blue-50 sub shadow tab">
+            <button class="icon ion-information active text-black" onclick="openTab('tabWelcome')">Welcome</button>
+            <button class="icon ion-home text-black" onclick="openTab('tabHome')">Home</button>
+            <button class="icon ion-ios-list-outline text-black" onclick="openTab('tabNotes')">Notes</button>
+            <button class="icon ion-android-people text-black" onclick="openTab('tabContact')">Contact</button>
+            <button class="icon ion-android-person text-black" onclick="openTab('tabAbout')">About</button>
+        </div>
+        <div class="footer blue-50">
+            <div class="title">
+                <button onclick="logOut();" class="blue radius full margin-bottom">Logout user</button>
             </div>
         </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="scripts/platformOverrides.js"></script>
-        <script type="text/javascript" src="scripts/index.js"></script>
-    </body>
+
+
+        <div class="tab-content" id="tabAbout">
+            <h2 class="text-strong padding text-pink">About</h2>
+            <p>
+                QuickNote
+            </p>
+            <p>
+                (c) Juha Penttinen
+            </p>
+        </div>
+        <div class="tab-content" id="tabHome">
+            <h2 class="text-strong padding text-pink">Home</h2>
+            <p>Current date is: <span id="datetime"></span></p>
+
+
+
+            <p>Current time is: <span id="datetime2"></span></p>
+
+
+        </div>
+        <div class="tab-content" id="tabNotes" style="overflow-y: scroll; height:400px;">
+            <h2 class="text-strong padding text-pink">Browse notes</h2>
+            <p>
+                <div id="noteDiv">Note data here</div>
+            </p>
+            <div>
+                
+                <textarea placeholder="Write your note here" style="width:100%;resize: none; background-color:azure; border-style: double;" id="noteContents" cols="40" rows="5"></textarea>
+                <div class="item">
+                    <button onclick="noteDatabaseHandler.addNote('noteContents');" class="blue radius full margin-bottom">Create note</button>
+                  
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content active" id="tabWelcome">
+            <h2 class="text-strong padding text-pink">Welcome</h2>
+            <p>
+                Welcome to QuickNote
+            </p>
+            <p>
+                This program is designed to make writing notes quick and easy.
+            </p>
+        </div>
+        <div class="tab-content" id="tabContact">
+            <h2 class="text-strong padding text-pink">Contact</h2>
+            <p>
+                Should you have any feedback regarding the program feel free to contact at:
+            </p>
+            <p>
+                <a style="color:blue;" href="mailto:juha.penttinen@student.laurea.fi?Subject=Here%20is%20my%20feedback" target="_top">juha.penttinen@student.laurea.fi</a>
+            </p>
+        </div>
+    </div>
+        <!-- separate login outside main functionality -->
+        <div class="login white" id="login">
+            <div class="header blue">
+
+                <h1>QuickNote</h1>
+            </div>
+            <div class="header sub">
+                <p class="padding">
+                    Log In
+                </p>
+            </div>
+            <div class="list">
+                <div class="item label-float">
+                    <label>Username</label>
+                    <input type="text" id="lusername">
+                </div>
+                <div class="item label-float">
+                    <label>Password</label>
+                    <input type="password" id="lpassword">
+                </div>
+                <div class="item">
+                    <button onclick="testUsername();" class="blue radius full margin-bottom">Login user</button>
+                    <button onclick="register();" class="blue radius full margin-bottom">Don't have an account? Register</button>
+                </div>
+            </div>
+        </div>
+        <div class="register hidden white" id="register">
+            <div class="header blue">
+
+                <h1>QuickNote</h1>
+            </div>
+            <div class="header sub">
+
+                <p class="padding">
+                    Register
+                </p>
+            </div>
+            <div class="list">
+                <div class="item label-float">
+                    <label>Username</label>
+                    <input type="text" id="username">
+                </div>
+                <div class="item label-float">
+                    <label>Password</label>
+                    <input type="password" id="password">
+                </div>
+                <div class="item">
+                    <button onclick="addUsername();" class="blue radius full margin-bottom">Register user</button>
+                    <button onclick="login();" class="blue radius full margin-bottom">Back</button>
+                </div>
+            </div>
+        </div>
+</body>
 </html>

@@ -3,5 +3,12 @@
     "version": "1.0.0",
     "private": true,
     "dependencies": {
+        "cordova-plugin-dialogs": "^2.0.1"
+    },
+    "cordova": {
+        "plugins": {
+            "cordova-plugin-firebase-authentication": {},
+            "cordova-plugin-dialogs": {}
+        }
     }
 }
